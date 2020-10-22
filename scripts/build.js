@@ -8,9 +8,10 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
 
+// 获取到构建所需要的配置 - Array
 let builds = require('./config').getAllBuilds()
 
-// filter builds via command line arg
+// filter builds via command line arg（对配置进行过滤）
 if (process.argv[2]) {
   const filters = process.argv[2].split(',')
   builds = builds.filter(b => {
@@ -23,6 +24,7 @@ if (process.argv[2]) {
   })
 }
 
+// 编译
 build(builds)
 
 function build (builds) {
@@ -43,11 +45,13 @@ function build (builds) {
 function buildEntry (config) {
   const output = config.output
   const { file, banner } = output
+  // 以min.js结尾进行uglify压缩
   const isProd = /(min|prod)\.js$/.test(file)
   return rollup.rollup(config)
     .then(bundle => bundle.generate(output))
     .then(({ output: [{ code }] }) => {
       if (isProd) {
+        // 判断是否需要压缩
         const minified = (banner ? banner + '\n' : '') + terser.minify(code, {
           toplevel: true,
           output: {
@@ -64,6 +68,7 @@ function buildEntry (config) {
     })
 }
 
+// 打包生成到dist目录下&生成日志信息
 function write (dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report (extra) {

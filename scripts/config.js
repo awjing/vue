@@ -9,6 +9,7 @@ const version = process.env.VERSION || require('../package.json').version
 const weexVersion = process.env.WEEX_VERSION || require('../packages/weex-vue-framework/package.json').version
 const featureFlags = require('./feature-flags')
 
+// 打包生成的注释
 const banner =
   '/*!\n' +
   ` * Vue.js v${version}\n` +
@@ -25,6 +26,7 @@ const weexFactoryPlugin = {
   }
 }
 
+// 根据路径解析匹配文件
 const aliases = require('./alias')
 const resolve = p => {
   const base = p.split('/')[0]
@@ -35,6 +37,7 @@ const resolve = p => {
   }
 }
 
+// 不同版本配置
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs-dev': {
@@ -215,6 +218,7 @@ const builds = {
 
 function genConfig (name) {
   const opts = builds[name]
+  // builds通过转换成rollup可识别配置
   const config = {
     input: opts.entry,
     external: opts.external,
@@ -267,5 +271,6 @@ if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {
   exports.getBuild = genConfig
+  // builds配置通过映射和转换成rollup可识别配置
   exports.getAllBuilds = () => Object.keys(builds).map(genConfig)
 }

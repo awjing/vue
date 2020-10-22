@@ -29,6 +29,7 @@ export function initGlobalAPI (Vue: GlobalAPI) {
       )
     }
   }
+  // 定义了全局config
   Object.defineProperty(Vue, 'config', configDef)
 
   // exposed util methods.
@@ -46,11 +47,12 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   Vue.nextTick = nextTick
 
   // 2.6 explicit observable API
-  Vue.observable = <T>(obj: T): T => {
-    observe(obj)
-    return obj
-  }
+  // Vue.observable = <T>(obj: T): T => {
+  //   observe(obj)
+  //   return obj
+  // }
 
+  // 合并方法挂载到options下面
   Vue.options = Object.create(null)
   ASSET_TYPES.forEach(type => {
     Vue.options[type + 's'] = Object.create(null)
@@ -60,6 +62,7 @@ export function initGlobalAPI (Vue: GlobalAPI) {
   // components with in Weex's multi-instance scenarios.
   Vue.options._base = Vue
 
+  // 通过extend方法将内置组件进行扩展（keep-alive）
   extend(Vue.options.components, builtInComponents)
 
   initUse(Vue)
