@@ -76,6 +76,7 @@ if (process.env.NODE_ENV !== 'production') {
   }
 
   initProxy = function initProxy (vm) {
+     // 判断是否支持 proxy （对对象访问进行截取）
     if (hasProxy) {
       // determine which proxy handler to use
       const options = vm.$options

@@ -1,4 +1,7 @@
 /* @flow */
+// 1、对children进行normalize处理变成以为数组
+// 2、创建vnode
+
 
 import config from '../config'
 import VNode, { createEmptyVNode } from './vnode'
@@ -20,19 +23,25 @@ import {
   simpleNormalizeChildren
 } from './helpers/index'
 
+// 枚举
 const SIMPLE_NORMALIZE = 1
 const ALWAYS_NORMALIZE = 2
 
 // wrapper function for providing a more flexible interface
 // without getting yelled at by flow
 export function createElement (
+  // vm实例
   context: Component,
+  // vnode标签
   tag: any,
+  // vnode data
   data: any,
+  // 子节点 vnode tree
   children: any,
   normalizationType: any,
   alwaysNormalize: boolean
 ): VNode | Array<VNode> {
+  // 参数重载
   if (Array.isArray(data) || isPrimitive(data)) {
     normalizationType = children
     children = data
@@ -51,6 +60,7 @@ export function _createElement (
   children?: any,
   normalizationType?: number
 ): VNode | Array<VNode> {
+  // 响应式属性添加 __ob__
   if (isDef(data) && isDef((data: any).__ob__)) {
     process.env.NODE_ENV !== 'production' && warn(
       `Avoid using observed data object as vnode data: ${JSON.stringify(data)}\n` +

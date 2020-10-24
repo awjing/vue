@@ -15,7 +15,7 @@ let uid = 0
 export function initMixin (Vue: Class<Component>) {
   Vue.prototype._init = function (options?: Object) {
     const vm: Component = this
-    // a uid
+    // 定义uid
     vm._uid = uid++
 
     let startTag, endTag
@@ -28,7 +28,7 @@ export function initMixin (Vue: Class<Component>) {
 
     // a flag to avoid this being observed
     vm._isVue = true
-    // merge options
+    // merge options 合并options
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -49,6 +49,7 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // 初始化函数
     initLifecycle(vm)
     initEvents(vm)
     initRender(vm)
@@ -65,6 +66,7 @@ export function initMixin (Vue: Class<Component>) {
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
 
+    // 判断是否传入DOM对象，传入进行挂载
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }
