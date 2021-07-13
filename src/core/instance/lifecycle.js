@@ -145,7 +145,9 @@ export function mountComponent (
   hydrating?: boolean
 ): Component {
   vm.$el = el
+  // 是否有render函数
   if (!vm.$options.render) {
+    // 创建一个空的vnode
     vm.$options.render = createEmptyVNode
     if (process.env.NODE_ENV !== 'production') {
       /* istanbul ignore if */
@@ -196,7 +198,7 @@ export function mountComponent (
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
-  // 渲染Watcher
+  // 渲染Watcher（观察者模式）
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {

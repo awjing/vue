@@ -14,12 +14,15 @@ const idToTemplate = cached(id => {
   return el && el.innerHTML
 })
 
+// 缓存mount方法
 const mount = Vue.prototype.$mount
 // 挂载
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 调用query如果不是dom会尝试用querySelector获取
+  // 是dom则直接返回，最终是一个dom对象
   el = el && query(el)
 
   /* istanbul ignore if */
@@ -33,9 +36,12 @@ Vue.prototype.$mount = function (
 
   const options = this.$options
   // resolve template/el and convert to render function
+  // 没有render函数
   if (!options.render) {
+    // 获取template
     let template = options.template
     if (template) {
+      // 有template
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
           template = idToTemplate(template)
@@ -64,7 +70,7 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+      // 编译render函数
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
@@ -82,6 +88,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 缓存的mount方法
   return mount.call(this, el, hydrating)
 }
 

@@ -44,9 +44,13 @@ export default class Watcher {
 
   constructor (
     vm: Component,
+    // 表达式
     expOrFn: string | Function,
+    // 回调
     cb: Function,
+    // 配置
     options?: ?Object,
+    // 是否是渲染watcher
     isRenderWatcher?: boolean
   ) {
     this.vm = vm
@@ -99,6 +103,7 @@ export default class Watcher {
    * Evaluate the getter, and re-collect dependencies.
    */
   get () {
+    // 依赖收集相关
     pushTarget(this)
     let value
     const vm = this.vm
