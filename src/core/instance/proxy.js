@@ -37,6 +37,7 @@ if (process.env.NODE_ENV !== 'production') {
   const hasProxy =
     typeof Proxy !== 'undefined' && isNative(Proxy)
 
+  // 是否支持proxy
   if (hasProxy) {
     const isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact')
     config.keyCodes = new Proxy(config.keyCodes, {

@@ -65,8 +65,15 @@ new Vue({
 4、调用vm.$mount(vm.options.$el)方法，把数据挂载到el容器中
 
 ### Vue实例挂载的实现（$mount）
-1、获取render
+1、判断vm.$options.render是否存在
 2、没有render获取template通过编译转换为render
 3、调用mountComponent方法，实际就是渲染watcher，在方法里调用vm._update函数传入vm._render()，执行了一次渲染，之后更新还是会触发渲染watcher
+
+### render
+_render方法返回的是一个VNODE
+1、获取vm.$options.render
+2、调用render方法生成vnode节点，vnode = render.call(vm._renderProxy, vm.$createElement)
+3、vm._renderProxy对vm添加一层代理，确定某个prop是否存在
+4、检查vnode是否为数组且长度等于1，否则报警告
 
 new Vue -> init（初始化） -> $mount（挂载） -> compile（编译版本） -> render（render生成vnode） -> vnode -> patch -> DOM
