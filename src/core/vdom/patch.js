@@ -73,6 +73,7 @@ export function createPatchFunction (backend) {
 
   const { modules, nodeOps } = backend
 
+  // hooks保存在变量里
   for (i = 0; i < hooks.length; ++i) {
     cbs[hooks[i]] = []
     for (j = 0; j < modules.length; ++j) {
@@ -697,6 +698,7 @@ export function createPatchFunction (backend) {
     }
   }
 
+  // 使用函数柯里化技巧，将平台（node、weex...）差异化再之前抹平
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
@@ -711,6 +713,7 @@ export function createPatchFunction (backend) {
       isInitialPatch = true
       createElm(vnode, insertedVnodeQueue)
     } else {
+      // 判断是否是真实的DOM
       const isRealElement = isDef(oldVnode.nodeType)
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
         // patch existing root node

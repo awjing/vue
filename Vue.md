@@ -76,4 +76,13 @@ _render方法返回的是一个VNODE
 3、vm._renderProxy对vm添加一层代理，确定某个prop是否存在
 4、检查vnode是否为数组且长度等于1，否则报警告
 
+### Virtual DOM
+> 真正的DOM元素是非常庞大的，因为浏览器的标准就把DOM设计的非常复杂，当我们频繁的去做DOM更新，会产生一定的性能问题
+> Virtual DOM是用一个原生的JS对象去描述一个DOM节点，比创建一个DOM的代价小很多，在vuejs中，Virtual DOM是用VNode的类去描述
+
+### createElement
+
+### update
+Vue的_update是实例的一个私有方法，它被调用的时机有两个，一个是首次渲染，一个是数据更新的时候；_update方法的做哟个是把VNode渲染成真实的DOM
+
 new Vue -> init（初始化） -> $mount（挂载） -> compile（编译版本） -> render（render生成vnode） -> vnode -> patch -> DOM

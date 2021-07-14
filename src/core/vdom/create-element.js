@@ -41,7 +41,7 @@ export function createElement (
   normalizationType: any,
   alwaysNormalize: boolean
 ): VNode | Array<VNode> {
-  // 参数重载
+  // 参数重载 - 对参数个数不一致的处理
   if (Array.isArray(data) || isPrimitive(data)) {
     normalizationType = children
     children = data
